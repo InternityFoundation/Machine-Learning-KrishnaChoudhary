@@ -1,8 +1,8 @@
-# Step 1: Preprocessing
-#Libraries
-import pandas as pd
+#Data Preprocessing
+
 import numpy as np
 import matplotlib.pyplot as plt
+import pandas as pd
 
 # Importing data
 dataset = pd.read_csv("train.csv")
@@ -26,9 +26,12 @@ X_train = pca.fit_transform(X_train)
 X_test = pca.transform(X_test)
 explained_variance = pca.explained_variance_ratio_
 
-from sklearn.ensemble import RandomForestRegressor
-regressor = RandomForestRegressor(n_estimators=10)
+from sklearn.linear_model import LinearRegression
+regressor = LinearRegression()
 regressor.fit(X_train,Y_train)
 
-Y_pred = regressor.predict(X_test)
-
+import statsmodels.formula.api as sm
+X = np.append(arr=np.ones((4459,1)).astype(int), values=X, axis=1)
+X_opt = X[:,:]
+regressor_ols = sm.OLS(endog=Y, exdog =X_opt).fit()
+regressor_ols.summary()
